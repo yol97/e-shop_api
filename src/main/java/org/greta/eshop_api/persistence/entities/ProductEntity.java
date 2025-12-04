@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.greta.eshop_api.exposition.dtos.ProductRequestDTO;
+import org.greta.eshop_api.exposition.dtos.ProductResponseDTO;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -59,8 +61,6 @@ public class ProductEntity {
     )
     private List<CategoryEntity> categories = new ArrayList<>();
 
-    // ajout
-
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
@@ -72,19 +72,14 @@ public class ProductEntity {
         updatedAt = LocalDateTime.now();
     }
 
-    public String getName() {
-        return name;
-    }
+    /* public void updateFrom(ProductRequestDTO dto) {
+        this.name = dto.name();
+        this.description = dto.description();
+        this.imageUrl = dto.imageUrl();
+        this.isActive = dto.isActive();
+        this.price = dto.price();
+        this.stock = dto.stock();
+        this.discount = dto.discount();
+    } */
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String name) {
-        this.description = description;
-    }
 }

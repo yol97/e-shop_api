@@ -1,5 +1,8 @@
 package org.greta.eshop_api.exposition.controllers;
 
+import org.greta.eshop_api.exposition.dtos.ProductRequestDTO;
+import org.greta.eshop_api.exposition.dtos.ProductResponseDTO;
+import org.greta.eshop_api.mappers.ProductMapper;
 import org.greta.eshop_api.persistence.entities.ProductEntity;
 import org.greta.eshop_api.persistence.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +19,23 @@ public class ProductController {
     @Autowired      // injecte automatiquement une instance du ProductRepository (Spring s’en charge)
     private ProductRepository productRepository;
 
-    /* @GetMapping
-    public List<ProductEntity> getAllProducts() {
-        List<ProductEntity> products = productRepository.findAll();
-        return products;
-    } */
-
-    @GetMapping     // indique que la méthode répond aux requêtes HTTP GET
-    public ResponseEntity<List<ProductEntity>> getAllProducts() {
-        List<ProductEntity> products = productRepository.findAll();
-        return ResponseEntity.ok(products);
+    @GetMapping
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+        List<ProductResponseDTO> dtos = productRepository.findAll()
+                .stream()
+                .map(ProductMapper::toDto)
+                .toList();
+        return ResponseEntity.ok(dtos);
     }
 
-    /* @GetMapping("/search")
-    public List<ProductEntity> searchProducts(@RequestParam String keyword) {
-        return productRepository.findByNameContainingIgnoreCase(keyword);
-    } */
-
     @GetMapping("/search")
-    public List<ProductEntity> searchProducts(@RequestParam String keyword) {
-        return productRepository.findByNameContainingIgnoreCase(keyword);
+    public ResponseEntity<List<ProductResponseDTO>> searchProducts(@RequestParam String keyword) {
+        List<ProductResponseDTO> dtos = productRepository
+                .findByNameContainingIgnoreCase(keyword)
+                .stream()
+                .map(ProductMapper::toDto)
+                .toList();
+        return ResponseEntity.ok(dtos);
     }
 
     /* public List<String> searchproducts(
@@ -48,45 +48,53 @@ public class ProductController {
     } */
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductEntity> getProductById(@PathVariable Long id) {
-        ProductEntity product = productRepository.findById(id).orElse(null);
-
-        if (product != null) {
-            return ResponseEntity.ok(product); // 200 OK
-        } else {
-            return ResponseEntity.notFound().build(); // 404
-        }
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
+        return productRepository.findById(id)
+                .map(ProductMapper::toDto)
+                .map(dto -> ResponseEntity.ok(dto))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity product) {
-        ProductEntity saved = productRepository.save(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    public ResponseEntity<ProductResponseDTO> createProduct(    // 👉 à la place de ResponseEntity<ProductEntity>
+            @RequestBody ProductRequestDTO request
+    ) {
+        ProductEntity entity = ProductMapper.toEntity(request);
+        ProductEntity saved = productRepository.save(entity);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ProductMapper.toDto(saved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductEntity> updateProduct(
+    public ResponseEntity<ProductResponseDTO> updateProduct(
             @PathVariable Long id,
-            @RequestBody ProductEntity newData) {
+            @RequestBody ProductRequestDTO newData) {
 
         ProductEntity existing = productRepository.findById(id).orElse(null);
 
-        if (existing != null) {
-            existing.setName(newData.getName());
-            existing.setDescription(newData.getDescription());
-            /* existing.setImageUrl(newData.getImageUrl());
-            existing.setActive(newData.isActive());
-            existing.setPrice(newData.getPrice());
-            existing.setStock(newData.getStock());
-            existing.setDiscount(newData.getDiscount()); */
-
-            ProductEntity updated = productRepository.save(existing);
-            return ResponseEntity.ok(updated);
-        } else {
+        if (existing == null) {
             return ResponseEntity.notFound().build();
         }
+
+        // 🔁 Mise à jour manuelle de l’entité avec les données du DTO
+        existing.setName(newData.name());
+        existing.setDescription(newData.description());
+        existing.setImageUrl(newData.imageUrl());
+        existing.setIsActive(newData.isActive());   // Lombok -> setIsActive(...)
+        existing.setPrice(newData.price());
+        existing.setStock(newData.stock());
+        existing.setDiscount(newData.discount());
+
+        // 💾 Sauvegarde
+        ProductEntity updated = productRepository.save(existing);
+
+        // 🎁 Réponse en DTO
+        ProductResponseDTO responseDto = ProductMapper.toDto(updated);
+        return ResponseEntity.ok(responseDto);
     }
 
+    // 👇 un DELETE n'a pas de corps de réponse, donc pas de DTO
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         if (productRepository.existsById(id)) {
