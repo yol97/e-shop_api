@@ -1,6 +1,6 @@
 package org.greta.eshop_api.exposition.controllers;
-
 import jakarta.validation.Valid;
+import org.greta.eshop_api.exceptions.ResourceNotFoundException;
 import org.greta.eshop_api.exposition.dtos.ProductRequestDTO;
 import org.greta.eshop_api.exposition.dtos.ProductResponseDTO;
 import org.greta.eshop_api.mappers.ProductMapper;
@@ -50,10 +50,13 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
-        return productRepository.findById(id)
-                .map(ProductMapper::toDto)
-                .map(dto -> ResponseEntity.ok(dto))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        ProductEntity product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Produit avec l'ID : " + id + " n'existe pas."
+                ));
+
+        ProductResponseDTO response = ProductMapper.toDto(product);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
