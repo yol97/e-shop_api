@@ -1,5 +1,6 @@
 package org.greta.eshop_api.exposition.controllers;
 
+import jakarta.validation.Valid;
 import org.greta.eshop_api.exposition.dtos.ProductRequestDTO;
 import org.greta.eshop_api.exposition.dtos.ProductResponseDTO;
 import org.greta.eshop_api.mappers.ProductMapper;
@@ -57,7 +58,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductResponseDTO> createProduct(    // 👉 à la place de ResponseEntity<ProductEntity>
-            @RequestBody ProductRequestDTO request
+            @Valid @RequestBody ProductRequestDTO request       // @Valid des contraintes de validation
     ) {
         ProductEntity entity = ProductMapper.toEntity(request);
         ProductEntity saved = productRepository.save(entity);
