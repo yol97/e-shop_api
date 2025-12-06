@@ -72,7 +72,7 @@ public class ProductEntity {
         updatedAt = LocalDateTime.now();
     }
 
-    /* public void updateFrom(ProductRequestDTO dto) {
+    public void updateFrom(ProductRequestDTO dto) {
         this.name = dto.name();
         this.description = dto.description();
         this.imageUrl = dto.imageUrl();
@@ -80,6 +80,6 @@ public class ProductEntity {
         this.price = dto.price();
         this.stock = dto.stock();
         this.discount = dto.discount();
-    } */
+    }
 
 }
