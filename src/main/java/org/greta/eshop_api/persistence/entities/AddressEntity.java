@@ -28,7 +28,7 @@ public class AddressEntity {
     private String city;
 
     @Column(nullable = false, length = 10)
-    private String zip_code;
+    private String zipCode;
 
     @Column(nullable = false, length = 80)
     private String country;

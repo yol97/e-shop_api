@@ -23,8 +23,8 @@ public record ProductRequestDTO(
         Boolean isActive,
 
         @NotNull(message = "Le prix ne peut pas être null")
-        // @Positive(message = "Le prix doit être positif")
-        // @Min(value = 1, message = "Le prix doit être au moins de 1")
+        @Positive(message = "Le prix doit être positif")
+        @Min(value = 1, message = "Le prix doit être au moins de 1")
         @Max(value = 10000, message = "Le prix ne peut pas dépasser 10 000")
         double price,
 

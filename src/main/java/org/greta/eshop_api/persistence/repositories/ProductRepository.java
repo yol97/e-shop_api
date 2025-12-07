@@ -2,7 +2,6 @@ package org.greta.eshop_api.persistence.repositories;
 
 import org.greta.eshop_api.persistence.entities.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

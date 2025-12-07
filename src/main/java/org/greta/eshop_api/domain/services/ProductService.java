@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    // 👇 Hop on injecte le reposistory
+    // 👇 Hop on injecte le repository
     @Autowired
     private ProductRepository productRepository;
 
@@ -26,7 +26,6 @@ public class ProductService {
                 .map(ProductMapper::toDto)
                 .toList();
     }
-
 
     // 👇 On a décalé la logique du Controller ici
     public ProductResponseDTO findById(Long id) {

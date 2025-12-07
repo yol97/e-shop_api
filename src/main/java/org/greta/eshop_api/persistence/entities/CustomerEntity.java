@@ -25,10 +25,14 @@ public class CustomerEntity {
     private Long id;
 
     @Column(nullable = false, length = 50)
-    private String first_name;
+    private String firstName;
 
     @Column(nullable = false, length = 50)
-    private String last_name;
+    private String lastName;
+
+    // Ajout pour challenge 2 Métiers : compte suspendu du client
+    @Column(nullable = false)
+    private boolean suspended = false;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -61,4 +65,5 @@ public class CustomerEntity {
     public void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
 }
