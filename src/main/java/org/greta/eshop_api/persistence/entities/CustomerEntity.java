@@ -18,11 +18,7 @@ import java.util.List;
 @Setter
 
 
-public class CustomerEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CustomerEntity extends BaseEntity {
 
     @Column(nullable = false, length = 50)
     private String firstName;
@@ -34,17 +30,16 @@ public class CustomerEntity {
     @Column(nullable = false)
     private boolean suspended = false;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     // 👇 ça se passe ici (la jointure avec address)
     @OneToOne(
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = true
     )
+
     @JoinColumn(name = "address_id")
     private AddressEntity address;
 
@@ -54,16 +49,5 @@ public class CustomerEntity {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     private List<OrdersEntity> orders = new ArrayList<>();
-
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
 }

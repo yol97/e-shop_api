@@ -25,5 +25,4 @@ public class EshopApiApplication {
         return "Yes, of course!";
     }
 
-
 }

@@ -19,11 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 
-public class ProductEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ProductEntity extends BaseEntity {
 
     @Column(nullable = false, length = 80)
     private String name;
@@ -46,12 +42,6 @@ public class ProductEntity {
     @Column(nullable = false)
     private double discount = 0.0;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
     // création de la table relation "product_category"
     @ManyToMany
     @JoinTable(
@@ -60,17 +50,6 @@ public class ProductEntity {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<CategoryEntity> categories = new ArrayList<>();
-
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
     public void updateFrom(ProductRequestDTO dto) {
         this.name = dto.name();

@@ -15,23 +15,13 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 
-public class OrderItemEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OrderItemEntity extends BaseEntity {
 
     @Column(nullable = false)
     private int quantity;
 
     @Column(nullable = false)
     private double unit_price;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
 
     // FK -> orders.id
     @ManyToOne
@@ -42,17 +32,6 @@ public class OrderItemEntity {
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
-
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
     // clé étrangère order_id
 

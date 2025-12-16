@@ -17,20 +17,10 @@ import java.util.List;
 @Getter
 @Setter
 
-public class OrdersEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OrdersEntity extends BaseEntity {
 
     @Column(nullable = false, length = 20)
     private String status;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
 
     // 👇 et ici relation N -> 1 FK vers customer.id (plusieurs commandes pour un seul client)
     @ManyToOne
@@ -44,15 +34,4 @@ public class OrdersEntity {
             orphanRemoval = true
     )
     private List<OrderItemEntity> items = new ArrayList<>();
-
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 }

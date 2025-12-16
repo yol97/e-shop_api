@@ -18,7 +18,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // 👇👇 Get
+    // 👇👇 On met nos méthodes CRUD
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getAll() {
         List<ProductResponseDTO> response = productService.findAll();

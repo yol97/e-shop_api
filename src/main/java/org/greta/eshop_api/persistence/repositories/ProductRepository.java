@@ -1,6 +1,9 @@
 package org.greta.eshop_api.persistence.repositories;
 
 import org.greta.eshop_api.persistence.entities.ProductEntity;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +13,8 @@ import java.util.List;
 
 // 👇 le 1er type est l’entité manipulée, le 2ème est le type de sa clé primaire (id de type Long)
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+
+    // Page<ProductEntity> findAll(Pageable pageable);
 
     // 👇 SELECT * FROM product WHERE LOWER(name) LIKE LOWER('%keyword%');
     List<ProductEntity> findByNameContainingIgnoreCase(String keyword);

@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name="address")
 @NoArgsConstructor
@@ -15,11 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 
-public class AddressEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class AddressEntity extends BaseEntity {
 
     @Column(nullable = false, length = 120)
     private String street;
@@ -33,24 +27,8 @@ public class AddressEntity {
     @Column(nullable = false, length = 80)
     private String country;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
     // 👇 ça se passe ici (la jointure avec customer)
     @OneToOne(mappedBy = "address")
     private CustomerEntity customer;
 
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 }

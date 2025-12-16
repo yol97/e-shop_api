@@ -2,6 +2,7 @@ package org.greta.eshop_api.exposition.controllers;
 import org.greta.eshop_api.domain.services.CustomerService;
 import org.greta.eshop_api.exposition.dtos.CustomerRequestDTO;
 import org.greta.eshop_api.exposition.dtos.CustomerResponseDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
