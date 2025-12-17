@@ -1,4 +1,6 @@
 package org.greta.eshop_api.exposition.controllers;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.greta.eshop_api.domain.services.ProductService;
 import org.greta.eshop_api.exposition.dtos.ProductRequestDTO;
@@ -25,6 +27,12 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(
+            summary = "Obtenir un produit par son ID",
+            description = "Retourne les informations détaillées d’un produit existant"
+    )
+    @ApiResponse(responseCode = "200", description = "Produit trouvé avec succès")
+    @ApiResponse(responseCode = "404", description = "Produit non trouvé")
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> getById(@PathVariable Long id) {
         ProductResponseDTO response = productService.findById(id);

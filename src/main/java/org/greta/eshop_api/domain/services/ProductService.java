@@ -8,6 +8,8 @@ import org.greta.eshop_api.mappers.ProductMapper;
 import org.greta.eshop_api.persistence.entities.ProductEntity;
 import org.greta.eshop_api.persistence.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,11 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Cacheable("products")
+    public List<ProductEntity> getAllProducts() {
+        System.out.println("🍣 Récupération depuis la base...");
+        return productRepository.findAll();
+    }
 
     // 👇 On a décalé la logique du Controller ici
     public List<ProductResponseDTO> findAll() {
@@ -57,6 +64,18 @@ public class ProductService {
         if (!productRepository.existsById(id)) {
             throw new ResourceNotFoundException("Impossible de supprimer : produit " + id + " introuvable.");
         }
+        productRepository.deleteById(id);
+    }
+
+    // Exemple : Invalide le cache quand on ajoute un produit
+    @CacheEvict(value = "products", allEntries = true)
+    public ProductEntity addProduct(ProductEntity product) {
+        return productRepository.save(product);
+    }
+
+    // Exemple : Invalide le cache quand on supprime un produit
+    @CacheEvict(value = "products", allEntries = true)
+    public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
 }
