@@ -6,9 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.greta.eshop_api.exposition.dtos.ProductRequestDTO;
-import org.greta.eshop_api.exposition.dtos.ProductResponseDTO;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +49,9 @@ public class ProductEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<CategoryEntity> categories = new ArrayList<>();
+
+    private LocalDate promoStart;
+    private LocalDate promoEnd;
 
     public void updateFrom(ProductRequestDTO dto) {
         this.name = dto.name();
