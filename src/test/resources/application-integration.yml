@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb   # Base H2 en mémoire pour les tests d’intégration
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+
+  jpa:
+    show-sql: true            # Affiche les requêtes SQL dans les logs
+    hibernate:
+      ddl-auto: create-drop  # Crée et supprime le schéma à chaque test
+
+  sql:
+    init:
+      mode: never            # Désactive data.sql en tests d’intégration (ajout conseillé)
+
+cors:
+  allowedOrigins: "*"         # CORS ouverts pour les tests
+

@@ -84,8 +84,12 @@ public class OrderService {
             // garde trace pour validateProducts()
             productsInOrder.add(product);
 
-            // Vérifie le stock pour cet item
+            // Valide le stock
             OrderRules.validateStock(itemDto, product);
+
+            // Décrémenter le stock + persister
+            product.setStock(product.getStock() - itemDto.quantity());
+            productRepository.save(product);
 
             // Crée l'OrderItemEntity
             OrderItemEntity item = new OrderItemEntity();
