@@ -9,10 +9,10 @@
 		<relativePath/>
 	</parent>
 	<groupId>org.greta</groupId>
-	<artifactId>eshop_api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>eshop_api</name>
-	<description>Demo project for Spring Boot</description>
+    <artifactId>backend</artifactId>
+    <version>1.0.0</version>
+    <name>backend_e-shop-ci-cd</name>
+    <description>Backend for e-shop project demo for CI/CD</description>
 	<url/>
 	<licenses>
 		<license/>
