@@ -59,8 +59,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven
 
-      - name: Run integration tests
-        run: mvn test -Pintegration-tests
+      - name: Run integration tests (with stacktrace)
+        run: mvn -B -ntp -e -DtrimStackTrace=false test -P integration-tests -Dspring.profiles.active=integration
 
   e2e-tests:
     name: 🚀 E2E Tests
