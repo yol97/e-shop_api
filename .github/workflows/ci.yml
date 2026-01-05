@@ -35,8 +35,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven
 
-      - name: Run integration tests (with stacktrace)
-        run: mvn -B -ntp -e -DtrimStackTrace=false test -P integration-tests -Dspring.profiles.active=integration
+      - name: Run unit tests
+        run: mvn test -Punit-tests
 
   integration-tests:
     name: 🔗 Integration Tests
