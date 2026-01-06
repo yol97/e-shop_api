@@ -20,7 +20,3 @@ jwt:
   secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION_MS}
 
-jwt:
-  secret: ${JWT_SECRET}
-  expiration: ${JWT_EXPIRATION_MS}
-
