@@ -70,6 +70,9 @@ jobs:
   e2e-tests:
     name: 🚀 E2E Tests
     runs-on: ubuntu-latest
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION_MS: ${{ secrets.JWT_EXPIRATION_MS }}
     if: github.event_name == 'pull_request' && ((github.base_ref == 'staging' && github.head_ref == 'development') || (github.base_ref == 'production' && github.head_ref == 'staging'))
     steps:
       - name: Checkout code
