@@ -10,9 +10,9 @@ spring:
     hibernate:
       ddl-auto: create-drop  # Crée et supprime le schéma à chaque test
 
-  #sql:
-    #init:
-      #mode: never            # Désactive data.sql en tests d’intégration (ajout conseillé)
+  sql:
+    init:
+      mode: never            # Désactive data.sql en tests d’intégration (ajout conseillé)
 
 cors:
   allowedOrigins: "*"         # CORS ouverts pour les tests
