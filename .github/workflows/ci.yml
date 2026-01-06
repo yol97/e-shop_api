@@ -74,11 +74,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven
 
-
       - name: Check JWT env vars presence
-        env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_EXPIRATION_MS: ${{ secrets.JWT_EXPIRATION_MS }}
         run: |
           if [ -z "$JWT_SECRET" ]; then echo "JWT_SECRET is MISSING"; exit 1; else echo "JWT_SECRET is present"; fi
           if [ -z "$JWT_EXPIRATION_MS" ]; then echo "JWT_EXPIRATION_MS is MISSING"; exit 1; else echo "JWT_EXPIRATION_MS is present: $JWT_EXPIRATION_MS"; fi
