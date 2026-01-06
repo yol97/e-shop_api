@@ -53,6 +53,9 @@ jobs:
   integration-tests:
     name: 🔗 Integration Tests
     runs-on: ubuntu-latest
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION_MS: ${{ secrets.JWT_EXPIRATION_MS }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
