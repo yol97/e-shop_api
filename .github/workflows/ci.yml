@@ -36,7 +36,7 @@ jobs:
             ${{ runner.os }}-maven
 
       - name: Run unit tests
-        run: mvn -B -ntp -e -DtrimStackTrace=false test -Punit-tests
+        run: mvn test -Punit-tests
 
       - name: Print surefire reports
         if: always()
@@ -80,7 +80,7 @@ jobs:
           if [ -z "$JWT_EXPIRATION_MS" ]; then echo "JWT_EXPIRATION_MS is MISSING"; exit 1; else echo "JWT_EXPIRATION_MS is present: $JWT_EXPIRATION_MS"; fi
 
       - name: Run integration tests
-        run: mvn -B -ntp -e -DtrimStackTrace=false -Dspring.profiles.active=integration test -Pintegration-tests
+        run: mvn test -Pintegration-tests
 
       - name: Print surefire reports
         if: always()
@@ -109,7 +109,7 @@ jobs:
           java-version: 21
 
       - name: Run E2E tests
-        run: mvn -B -ntp -e -DtrimStackTrace=false test -Pe2e-tests
+        run: mvn test -Pe2e-tests
 
       - name: Print surefire reports
         if: always()
