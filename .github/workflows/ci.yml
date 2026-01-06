@@ -36,7 +36,19 @@ jobs:
             ${{ runner.os }}-maven
 
       - name: Run unit tests
-        run: mvn test -Punit-tests
+        run: mvn -B -ntp -e -DtrimStackTrace=false test -Punit-tests
+
+      - name: Print surefire reports
+        if: always()
+        run: |
+          echo "===== SUREFIRE REPORTS (unit-tests) ====="
+          ls -la target/surefire-reports || true
+          echo "-----"
+          for f in target/surefire-reports/*.txt; do
+            echo "### $f"
+            sed -n '1,260p' "$f" || true
+            echo "-----"
+          done
 
   integration-tests:
     name: 🔗 Integration Tests
@@ -59,8 +71,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven
 
-      - name: Run integration tests (with stacktrace)
-        run: mvn -B -ntp -e -DtrimStackTrace=false test -P integration-tests -Dspring.profiles.active=integration
+      - name: Run integration tests
+        run: mvn -B -ntp -e -DtrimStackTrace=false -Dspring.profiles.active=integration test -Pintegration-tests
+
+      - name: Print surefire reports
+        if: always()
+        run: |
+          echo "===== SUREFIRE REPORTS (integration-tests) ====="
+          ls -la target/surefire-reports || true
+          echo "-----"
+          for f in target/surefire-reports/*.txt; do
+            echo "### $f"
+            sed -n '1,320p' "$f" || true
+            echo "-----"
+          done
 
   e2e-tests:
     name: 🚀 E2E Tests
@@ -77,4 +101,16 @@ jobs:
           java-version: 21
 
       - name: Run E2E tests
-        run: mvn test -Pe2e-tests
+        run: mvn -B -ntp -e -DtrimStackTrace=false test -Pe2e-tests
+
+      - name: Print surefire reports
+        if: always()
+        run: |
+          echo "===== SUREFIRE REPORTS (e2e-tests) ====="
+          ls -la target/surefire-reports || true
+          echo "-----"
+          for f in target/surefire-reports/*.txt; do
+            echo "### $f"
+            sed -n '1,320p' "$f" || true
+            echo "-----"
+          done
