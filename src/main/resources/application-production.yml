@@ -1,16 +1,16 @@
 # application-production.yml
 spring:
   datasource:
-    url: jdbc:mysql://${DB_HOST_PROD}:${DB_PORT_PROD}/${DB_NAME_PROD}?createDatabaseIfNotExist=true
-    username: ${DB_USER_PROD}
-    password: ${DB_PASSWORD_PROD}
+    url: jdbc:mysql://${DB_HOST_PRODUCTION}:${DB_PORT_PRODUCTION}/${DB_NAME_PRODUCTION}?createDatabaseIfNotExist=true
+    username: ${DB_USER_PRODUCTION}
+    password: ${DB_PASSWORD_PRODUCTION}
 
 springdoc:
   swagger-ui:
     enabled: true
 
 cors:
-  allowedOrigins: ${CLIENT_URL_PROD}
+  allowedOrigins: ${CLIENT_URL_PRODUCTION}
 
 logging:
   level:
